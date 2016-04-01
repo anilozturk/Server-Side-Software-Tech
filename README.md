@@ -2,5 +2,3 @@
 
 
  First Project !
-
-Comolokko
