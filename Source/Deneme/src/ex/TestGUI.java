@@ -9,34 +9,37 @@ import javax.swing.border.EmptyBorder;
 
 public class TestGUI extends JFrame {
 
-	private JPanel contentPane;
+  private static final long serialVersionUID = -4148257519270926391L;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TestGUI frame = new TestGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final TestGUI frame = new TestGUI();
+          frame.setVisible(true);
+        } catch (final Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
 
-	/**
-	 * Create the frame.
-	 */
-	public TestGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-	}
+  private final JPanel contentPane;
+
+  /**
+   * Create the frame.
+   */
+  public TestGUI() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 450, 300);
+    this.contentPane = new JPanel();
+    this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    this.contentPane.setLayout(new BorderLayout(0, 0));
+    setContentPane(this.contentPane);
+  }
 
 }
