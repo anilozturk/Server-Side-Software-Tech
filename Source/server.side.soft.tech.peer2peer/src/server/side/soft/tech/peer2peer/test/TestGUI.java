@@ -96,7 +96,7 @@ public class TestGUI extends JFrame {
     gbc_outputArea.gridwidth = 0;
     gbc_outputArea.fill = GridBagConstraints.BOTH;
     gbc_outputArea.gridx = 0;
-    gbc_outputArea.gridy = 0;
+    gbc_outputArea.gridy = 0; 
     viewPanel.add(outputArea, gbc_outputArea);
 
     final JTextArea inputArea = new JTextArea();
