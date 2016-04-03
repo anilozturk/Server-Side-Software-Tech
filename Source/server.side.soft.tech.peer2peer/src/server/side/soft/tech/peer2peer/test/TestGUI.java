@@ -113,7 +113,7 @@ public class TestGUI extends JFrame {
     sendButton.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     final GridBagConstraints gbc_sendButton = new GridBagConstraints();
     gbc_sendButton.fill = GridBagConstraints.HORIZONTAL;
-    gbc_sendButton.anchor = GridBagConstraints.WEST;
+    gbc_sendButton.anchor = GridBagConstraints.WEST; 
     gbc_sendButton.gridwidth = 0;
     gbc_sendButton.gridx = 1;
     gbc_sendButton.gridy = 2;
