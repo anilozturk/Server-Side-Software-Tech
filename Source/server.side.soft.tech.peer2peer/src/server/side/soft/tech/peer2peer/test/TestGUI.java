@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 public class TestGUI extends JFrame {
 
@@ -27,6 +28,7 @@ public class TestGUI extends JFrame {
       @Override
       public void run() {
         try {
+          UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
           final TestGUI frame = new TestGUI();
           frame.setVisible(true);
         } catch (final Exception e) {
