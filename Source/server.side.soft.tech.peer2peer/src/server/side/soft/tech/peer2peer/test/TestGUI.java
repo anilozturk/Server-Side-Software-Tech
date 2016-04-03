@@ -87,7 +87,7 @@ public class TestGUI extends JFrame {
     viewPanel.setLayout(gbl_viewPanel);
 
     final JTextArea outputArea = new JTextArea();
-    outputArea.setText("Örnek bir çıktı");
+    outputArea.setText("Ornek bir girdi!");
     outputArea.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     outputArea.setEditable(false);
     final GridBagConstraints gbc_outputArea = new GridBagConstraints();
@@ -101,7 +101,7 @@ public class TestGUI extends JFrame {
 
     final JTextArea inputArea = new JTextArea();
     inputArea.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-    inputArea.setText("Örnek bir girdi");
+    inputArea.setText("Ornek bir girdi!");
     final GridBagConstraints gbc_inputArea = new GridBagConstraints();
     gbc_inputArea.insets = new Insets(0, 0, 0, 5);
     gbc_inputArea.fill = GridBagConstraints.BOTH;
