@@ -30,6 +30,7 @@ public class TestGUI extends JFrame {
         try {
           UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
           final TestGUI frame = new TestGUI();
+          frame.setLocationRelativeTo(null);
           frame.setVisible(true);
         } catch (final Exception e) {
           e.printStackTrace();
@@ -44,7 +45,7 @@ public class TestGUI extends JFrame {
   public TestGUI() {
     setTitle("Test GUI");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(100, 100, 450, 300);
+    setSize(500, 400);
     final JPanel contentPane = new JPanel();
     contentPane.setBorder(null);
     contentPane.setLayout(new BorderLayout(0, 0));
