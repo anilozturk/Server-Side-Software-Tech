@@ -90,7 +90,7 @@ public class TestGUI extends JFrame {
     viewPanel.setLayout(gbl_viewPanel);
 
     final JTextArea outputArea = new JTextArea();
-    outputArea.setText("Örnek bir çıktı");
+    outputArea.setText("Ornek bir girdi!");
     outputArea.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     outputArea.setEditable(false);
     final GridBagConstraints gbc_outputArea = new GridBagConstraints();
@@ -99,12 +99,12 @@ public class TestGUI extends JFrame {
     gbc_outputArea.gridwidth = 0;
     gbc_outputArea.fill = GridBagConstraints.BOTH;
     gbc_outputArea.gridx = 0;
-    gbc_outputArea.gridy = 0;
+    gbc_outputArea.gridy = 0; 
     viewPanel.add(outputArea, gbc_outputArea);
 
     final JTextArea inputArea = new JTextArea();
     inputArea.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-    inputArea.setText("Örnek bir girdi");
+    inputArea.setText("Ornek bir girdi!");
     final GridBagConstraints gbc_inputArea = new GridBagConstraints();
     gbc_inputArea.insets = new Insets(0, 0, 0, 5);
     gbc_inputArea.fill = GridBagConstraints.BOTH;
@@ -116,7 +116,7 @@ public class TestGUI extends JFrame {
     sendButton.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     final GridBagConstraints gbc_sendButton = new GridBagConstraints();
     gbc_sendButton.fill = GridBagConstraints.HORIZONTAL;
-    gbc_sendButton.anchor = GridBagConstraints.WEST;
+    gbc_sendButton.anchor = GridBagConstraints.WEST; 
     gbc_sendButton.gridwidth = 0;
     gbc_sendButton.gridx = 1;
     gbc_sendButton.gridy = 2;
