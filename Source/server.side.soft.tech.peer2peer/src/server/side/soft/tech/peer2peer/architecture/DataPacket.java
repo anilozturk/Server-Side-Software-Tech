@@ -12,12 +12,14 @@ public class DataPacket implements Serializable {
 
   private PeerInfo receiver;
 
-  public DataPacket(PeerInfo sender, PeerInfo receiver, Object data) {
+  public DataPacket(PeerInfo sender, PeerInfo receiver, Object data) { // Bu sınıfın yapıcı methodu. 
     this.sender = sender;
     this.receiver = receiver;
     this.data = data;
-  }
+  } // İçinde gönderici, alıcı ve gönderilen mesaj bilgisini tutmaktadır.
 
+
+// getter ve setter methodları asağıda tanımlanmıştır.
   public Object getData() {
     return this.data;
   }
