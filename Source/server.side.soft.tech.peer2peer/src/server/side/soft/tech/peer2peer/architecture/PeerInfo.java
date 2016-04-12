@@ -8,12 +8,14 @@ public class PeerInfo {
 
   private final String nickname;
 
-  public PeerInfo(String ip, int port, String nickname) {
+  public PeerInfo(String ip, int port, String nickname) { // Kullanılan her bir akranın bilgileri için yapıcı method.
     this.ip = ip;
     this.port = port;
     this.nickname = nickname;
-  }
+  } // Bağlanılan ip, port numarası ve nickname bu alanda saklanmaktadır.
 
+
+// getter ve setter metotları
   public String getIp() {
     return this.ip;
   }
