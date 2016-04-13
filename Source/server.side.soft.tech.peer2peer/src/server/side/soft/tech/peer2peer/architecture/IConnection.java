@@ -1,6 +1,6 @@
 package server.side.soft.tech.peer2peer.architecture;
 
-public interface IConnection {
+public interface IConnection { // GUI deki bağlanma durumları için interface
 
   public void connect();
 
