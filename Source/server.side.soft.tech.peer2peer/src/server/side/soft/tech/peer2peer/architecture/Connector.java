@@ -6,32 +6,30 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import server.side.soft.tech.peer2peer.test.PeerNode;
-
-public class Connector implements IConnection, IDataListener {
+public class Connector implements IConnection {
 
   private final ExecutorService service;
 
-  private PeerNode node;
+  private IDataListener listener;
 
   private ServerSocket serverSocket;
 
   private Socket clientSocket;
 
-  private final boolean connected;
+  private boolean connected;
 
   private PeerInfo info;
 
-  public Connector(PeerInfo info) {
+  public Connector(IDataListener listener) {
+    this.listener = listener;
     this.service = Executors.newCachedThreadPool();
-    this.connected = true;
-    this.info = info;
+    this.connected = false;
   }
 
-  public Connector(PeerNode node) {
+  public Connector(PeerInfo info) {
     this.service = Executors.newCachedThreadPool();
-    this.connected = true;
-    this.node = node;
+    this.info = info;
+    this.connected = false;
   }
 
   @Override
@@ -45,24 +43,26 @@ public class Connector implements IConnection, IDataListener {
       e.printStackTrace();
     }
 
-    while (true) {
-      Socket clientSocket;
-      try {
-        clientSocket = this.serverSocket.accept();
-        this.service.execute(new DataReceiver(this, clientSocket));
-        // ConnectionManager.getInstance().addNewActivePeer(this.info, clientSocket);
-      } catch (final IOException e) {
-        e.printStackTrace();
+    this.connected = true;
+    ConnectionManager.getInstance().addNewActivePeer(this.info);
+
+    final Runnable r = new Runnable() {
+
+      @Override
+      public void run() {
+        while (true) {
+          Socket clientSocket;
+          try {
+            clientSocket = Connector.this.serverSocket.accept();
+            Connector.this.service.execute(new DataReceiver(Connector.this.listener, clientSocket));
+          } catch (final IOException e) {
+            e.printStackTrace();
+          }
+        }
       }
-    }
-  }
+    };
 
-  @Override
-  public void dataReceive(DataPacket packet) {
-    final String fromName = packet.getSender().getNickname();
-    final Object data = packet.getData();
-
-    this.node.writePacket(fromName, data);
+    this.service.execute(r);
   }
 
   @Override

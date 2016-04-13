@@ -1,28 +1,31 @@
 package server.side.soft.tech.peer2peer.architecture;
 
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectionManager {
 
-  private static ConnectionManager instance;
+  private static ConnectionManager instance = null;
 
   public static ConnectionManager getInstance() {
     if (instance == null) {
-      instance = new ConnectionManager();
-      instance.activePeers = new HashMap<>();
-      instance.deactivePeers = new HashMap<>();
+      synchronized (ConnectionManager.class) {
+        if (instance == null) {
+          instance = new ConnectionManager();
+        }
+      }
     }
     return instance;
   }
 
-  private Map<PeerInfo, Socket> activePeers;
+  private final List<PeerInfo> activePeers = new ArrayList<>();
 
-  private Map<PeerInfo, Socket> deactivePeers;
+  private final List<PeerInfo> deactivePeers = new ArrayList<>();
 
-  public void addNewActivePeer(PeerInfo peerInfo, Socket peerSocket) {
-    this.activePeers.put(peerInfo, peerSocket);
+  private ConnectionManager() {}
+
+  public void addNewActivePeer(PeerInfo peerInfo) {
+    this.activePeers.add(peerInfo);
   }
 
   public void disposePeer(PeerInfo peerInfo) {
@@ -31,12 +34,17 @@ public class ConnectionManager {
   }
 
   public void dropPeerToInactive(PeerInfo peerInfo) {
-    final Socket peerSocket = this.activePeers.get(peerInfo);
     this.activePeers.remove(peerInfo);
-    this.deactivePeers.put(peerInfo, peerSocket);
+    this.deactivePeers.add(peerInfo);
   }
 
-  public Socket getPeerSocket(PeerInfo peerInfo) {
-    return this.activePeers.get(peerInfo);
+  public List<PeerInfo> getActivePeersExceptMe(PeerInfo myInfo) {
+    final List<PeerInfo> cpyArray = new ArrayList<>();
+    for (final PeerInfo peerInfo : this.activePeers) {
+      if (!peerInfo.equals(myInfo)) {
+        cpyArray.add(peerInfo);
+      }
+    }
+    return cpyArray;
   }
 }

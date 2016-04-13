@@ -14,6 +14,18 @@ public class PeerInfo {
     this.nickname = nickname;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof PeerInfo)) {
+      return false;
+    }
+    final PeerInfo other = (PeerInfo) obj;
+    if (other.getIp().equals(getIp()) && other.getPort() == getPort()) {
+      return true;
+    }
+    return false;
+  }
+
   public String getIp() {
     return this.ip;
   }

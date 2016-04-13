@@ -19,10 +19,30 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import server.side.soft.tech.peer2peer.architecture.ConnectionManager;
 import server.side.soft.tech.peer2peer.architecture.Connector;
+import server.side.soft.tech.peer2peer.architecture.DataPacket;
 import server.side.soft.tech.peer2peer.architecture.IConnection;
+import server.side.soft.tech.peer2peer.architecture.IDataListener;
+import server.side.soft.tech.peer2peer.architecture.PeerInfo;
 
 public class PeerNode extends JFrame {
+
+  private class DataListener implements IDataListener {
+
+    @Override
+    public void dataReceive(DataPacket packet) {
+      final String fromName = packet.getSender().getNickname();
+      final Object data = packet.getData();
+      SwingUtilities.invokeLater(new Runnable() {
+
+        @Override
+        public void run() {
+          PeerNode.this.outputArea.append("\n" + fromName + ": " + data);
+        }
+      });
+    }
+  }
 
   private static final long serialVersionUID = -4148257519270926391L;
 
@@ -38,6 +58,8 @@ public class PeerNode extends JFrame {
 
   private final IConnection connUtil;
 
+  private final IDataListener listener;
+
   /**
    * Create the frame.
    */
@@ -46,7 +68,8 @@ public class PeerNode extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(500, 400);
 
-    this.connUtil = new Connector(this);
+    this.listener = new DataListener();
+    this.connUtil = new Connector(this.listener);
 
     final JPanel contentPane = new JPanel();
     contentPane.setBorder(null);
@@ -71,19 +94,6 @@ public class PeerNode extends JFrame {
     this.disconnItem.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     connMenu.add(this.disconnItem);
 
-    final JMenu helpMenu = new JMenu("Help");
-    helpMenu.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-    helpMenu.setMnemonic('H');
-    menuBar.add(helpMenu);
-
-    final JMenuItem searchItem = new JMenuItem("Search");
-    searchItem.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-    helpMenu.add(searchItem);
-
-    final JMenuItem aboutItem = new JMenuItem("About");
-    aboutItem.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-    helpMenu.add(aboutItem);
-
     final JPanel viewPanel = new JPanel();
     contentPane.add(viewPanel, BorderLayout.CENTER);
     final GridBagLayout gbl_viewPanel = new GridBagLayout();
@@ -105,8 +115,8 @@ public class PeerNode extends JFrame {
     viewPanel.add(this.outputArea, gbc_outputArea);
 
     this.inputArea = new JTextArea();
-    this.inputArea.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     this.inputArea.setEditable(false);
+    this.inputArea.setFont(new Font("Times New Roman", Font.PLAIN, 12));
     final GridBagConstraints gbc_inputArea = new GridBagConstraints();
     gbc_inputArea.insets = new Insets(0, 0, 0, 5);
     gbc_inputArea.fill = GridBagConstraints.BOTH;
@@ -181,12 +191,7 @@ public class PeerNode extends JFrame {
     installConnectListener();
     installDisconnectListener();
     installSendListener();
-    installReceiveListener();
     installExitListener();
-  }
-
-  private void installReceiveListener() {
-
   }
 
   private void installSendListener() {
@@ -194,19 +199,17 @@ public class PeerNode extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // create data packet for sending
-        PeerNode.this.connUtil.sendData();
+        PeerInfo myInfo = null;
+        if (PeerNode.this.connUtil instanceof Connector) {
+          myInfo = ((Connector) PeerNode.this.connUtil).getInfo();
+        }
+
+        for (final PeerInfo info : ConnectionManager.getInstance().getActivePeersExceptMe(myInfo)) {
+          final DataPacket packet = new DataPacket(myInfo, info, PeerNode.this.inputArea.getText());
+          PeerNode.this.connUtil.sendData(packet);
+        }
+
         PeerNode.this.inputArea.setText("");
-      }
-    });
-  }
-
-  public void writePacket(String fromName, Object data) {
-    SwingUtilities.invokeLater(new Runnable() {
-
-      @Override
-      public void run() {
-        PeerNode.this.outputArea.append("\n" + fromName + ": " + data);
       }
     });
   }
