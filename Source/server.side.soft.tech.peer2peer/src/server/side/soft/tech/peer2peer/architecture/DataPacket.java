@@ -2,6 +2,15 @@ package server.side.soft.tech.peer2peer.architecture;
 
 import java.io.Serializable;
 
+/**
+ * This class is our communication data which has common fields (sender,receiver,data,...) you can
+ * widen this.
+ *
+ * @author anıl öztürk
+ * @author ahmet gül
+ * @author asım zorlu
+ *
+ */
 public class DataPacket implements Serializable {
 
   private static final long serialVersionUID = -7394311034936837970L;
@@ -12,14 +21,12 @@ public class DataPacket implements Serializable {
 
   private PeerInfo receiver;
 
-  public DataPacket(PeerInfo sender, PeerInfo receiver, Object data) { // Bu sınıfın yapıcı methodu. 
+  public DataPacket(PeerInfo sender, PeerInfo receiver, Object data) {
     this.sender = sender;
     this.receiver = receiver;
     this.data = data;
-  } // İçinde gönderici, alıcı ve gönderilen mesaj bilgisini tutmaktadır.
+  }
 
-
-// getter ve setter methodları asağıda tanımlanmıştır.
   public Object getData() {
     return this.data;
   }

@@ -21,6 +21,14 @@ import server.side.soft.tech.peer2peer.architecture.Connector;
 import server.side.soft.tech.peer2peer.architecture.IConnection;
 import server.side.soft.tech.peer2peer.architecture.PeerInfo;
 
+/**
+ * This class gets the ip, port, nickname and peer infos which required for connecting those peers.
+ *
+ * @author anıl öztürk
+ * @author ahmet gül
+ * @author asım zorlu
+ *
+ */
 public class ConnectDialog extends JDialog {
 
   private static final long serialVersionUID = 5924591995838142604L;
@@ -43,17 +51,17 @@ public class ConnectDialog extends JDialog {
    * @param connUtil
    */
   public ConnectDialog(final PeerNode peerNode, final IConnection connUtil) {
-    this.setModal(true);
-    this.setTitle("Connection Info");
-    this.setType(Type.POPUP);
+    setModal(true);
+    setTitle("Connection Info");
+    setType(Type.POPUP);
     this.setSize(450, 200);
-    this.getContentPane().setLayout(new BorderLayout());
+    getContentPane().setLayout(new BorderLayout());
 
     this.parent = peerNode;
 
     final JPanel contentPanel = new JPanel();
     contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-    this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+    getContentPane().add(contentPanel, BorderLayout.CENTER);
     final GridBagLayout gbl_contentPanel = new GridBagLayout();
     gbl_contentPanel.columnWeights = new double[] {0.0, 1.0};
     gbl_contentPanel.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0};
@@ -142,6 +150,7 @@ public class ConnectDialog extends JDialog {
     }
     {
       this.toField = new JTextField();
+      this.toField.setFont(new Font("Times New Roman", Font.PLAIN, 13));
       this.toLabel.setLabelFor(this.toField);
       final GridBagConstraints gbc_toField = new GridBagConstraints();
       gbc_toField.fill = GridBagConstraints.BOTH;
@@ -153,7 +162,7 @@ public class ConnectDialog extends JDialog {
     {
       final JPanel buttonPane = new JPanel();
       buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-      this.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+      getContentPane().add(buttonPane, BorderLayout.SOUTH);
       {
         this.okButton = new JButton("OK");
         this.okButton.setFont(new Font("Times New Roman", Font.PLAIN, 13));
@@ -163,7 +172,8 @@ public class ConnectDialog extends JDialog {
 
           @Override
           public void actionPerformed(final ActionEvent arg0) {
-            if (ConnectDialog.this.ipField.getText().isEmpty()
+            if (ConnectDialog.this.ipField.getText().isEmpty() // it forces user to take all infos
+                                                               // for architecture.
                 || ConnectDialog.this.portField.getText().isEmpty()
                 || ConnectDialog.this.nickField.getText().isEmpty()) {
               JOptionPane.showMessageDialog(ConnectDialog.this.getParent(),
@@ -173,7 +183,8 @@ public class ConnectDialog extends JDialog {
                 final PeerInfo info = new PeerInfo(ConnectDialog.this.ipField.getText(),
                     Integer.valueOf(ConnectDialog.this.portField.getText()),
                     ConnectDialog.this.nickField.getText());
-                ((Connector) connUtil).setInfo(info);
+                ((Connector) connUtil).setInfo(info); // Peer's info has been registered to
+                                                      // Iconnection.
               }
               ConnectDialog.this.parent.connSuccess();
               ConnectDialog.this.dispose();
@@ -182,12 +193,12 @@ public class ConnectDialog extends JDialog {
         });
 
         buttonPane.add(this.okButton);
-        this.getRootPane().setDefaultButton(this.okButton);
+        getRootPane().setDefaultButton(this.okButton);
       }
     }
   }
 
-  public String getToIpAndPorts() {
+  public String getToIpAndPorts() { // which nodes you want to connect ?
     return this.toField.getText();
   }
 }

@@ -20,25 +20,42 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import server.side.soft.tech.peer2peer.architecture.ConnectionConstants;
 import server.side.soft.tech.peer2peer.architecture.Connector;
 import server.side.soft.tech.peer2peer.architecture.DataPacket;
 import server.side.soft.tech.peer2peer.architecture.IConnection;
 import server.side.soft.tech.peer2peer.architecture.IDataListener;
 import server.side.soft.tech.peer2peer.architecture.PeerInfo;
 
+/**
+ * The base class for Peer
+ *
+ * @author anıl öztürk
+ * @author ahmet gül
+ * @author asım zorlu
+ *
+ */
 public class PeerNode extends JFrame {
 
+  /**
+   * This implementation shows Client's sent object in the outputArea.
+   *
+   * @author anıl öztürk
+   * @author ahmet gül
+   * @author asım zorlu
+   */
   private class DataListener implements IDataListener {
 
     @Override
-    public void dataReceive(final DataPacket packet) {
+    public void dataReceive(final DataPacket packet) { // unpack the packet.
       final String fromName = packet.getSender().getNickname();
       final Object data = packet.getData();
       SwingUtilities.invokeLater(new Runnable() {
 
         @Override
         public void run() {
-          PeerNode.this.outputArea.append("\n" + fromName + ": " + data);
+          PeerNode.this.outputArea.append(
+              fromName + ConnectionConstants.MESSAGE_SEPARATOR + data + ConnectionConstants.EOL);
         }
       });
     }
@@ -64,18 +81,14 @@ public class PeerNode extends JFrame {
 
   private ConnectDialog connectDialog;
 
+  private PeerInfo myInfo;
+
   /**
    * Create the frame.
-   *
-   * @param myFile
-   *
-   * @param manager
-   *
-   * @param myFile
    */
   public PeerNode() {
-    this.setTitle("Test GUI");
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setTitle(ConnectionConstants.GUI_TITLE);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(500, 400);
 
     this.listener = new DataListener();
@@ -84,7 +97,7 @@ public class PeerNode extends JFrame {
     final JPanel contentPane = new JPanel();
     contentPane.setBorder(null);
     contentPane.setLayout(new BorderLayout(0, 0));
-    this.setContentPane(contentPane);
+    setContentPane(contentPane);
 
     final JMenuBar menuBar = new JMenuBar();
     menuBar.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -145,27 +158,34 @@ public class PeerNode extends JFrame {
     gbc_sendButton.gridy = 2;
     viewPanel.add(this.sendButton, gbc_sendButton);
 
-    this.installListeners();
+    installListeners(); // all required listeners has been installed.
   }
 
-  public void connSuccess() {
+  public void connSuccess() { // if connect dialog has been returned with success then init this
+                              // node.
     this.connUtil.connect();
-    this.toIpsAndPorts = this.connectDialog.getToIpAndPorts().trim().split(",");
+    this.toIpsAndPorts =
+        this.connectDialog.getToIpAndPorts().trim().split(ConnectionConstants.SEPERATOR);
     this.connItem.setEnabled(false);
     this.disconnItem.setEnabled(true);
     this.sendButton.setEnabled(true);
     this.inputArea.setEditable(true);
+    if (PeerNode.this.connUtil instanceof Connector) {
+      PeerNode.this.myInfo = ((Connector) PeerNode.this.connUtil).getInfo();
+      setTitle(getTitle() + "(" + this.myInfo.getNickname() + ")");
+    }
     this.inputArea.requestFocus();
   }
 
-  private void installConnectListener() {
+  private void installConnectListener() { // it asks the required ip, port, bla bla for constructed
+                                          // to be node.
     this.connItem.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(final ActionEvent e) {
         PeerNode.this.connectDialog = new ConnectDialog(PeerNode.this, PeerNode.this.connUtil);
         PeerNode.this.connectDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        PeerNode.this.connectDialog.setLocationRelativeTo(PeerNode.this.getParent());
+        PeerNode.this.connectDialog.setLocationRelativeTo(PeerNode.this);
         PeerNode.this.connectDialog.setVisible(true);
       }
     });
@@ -182,46 +202,47 @@ public class PeerNode extends JFrame {
         PeerNode.this.disconnItem.setEnabled(false);
         PeerNode.this.sendButton.setEnabled(false);
         PeerNode.this.inputArea.setEditable(false);
+        setTitle(ConnectionConstants.GUI_TITLE);
       }
     });
   }
 
-  private void installExitListener() {
-    this.addWindowListener(new WindowAdapter() {
+  private void installExitListener() { // if window is going to close then do some garbage collector
+                                       // operation.
+    addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(final WindowEvent e) {
         super.windowClosing(e);
         PeerNode.this.connUtil.disconnect();
-        // dispose
       }
     });
   }
 
   private void installListeners() {
-    this.installConnectListener();
-    this.installDisconnectListener();
-    this.installSendListener();
-    this.installExitListener();
+    installConnectListener();
+    installDisconnectListener();
+    installSendListener();
+    installExitListener();
   }
 
   private void installSendListener() {
     this.sendButton.addActionListener(new ActionListener() {
 
       @Override
-      public void actionPerformed(final ActionEvent e) {
-        PeerInfo myInfo = null;
-        if (PeerNode.this.connUtil instanceof Connector) {
-          myInfo = ((Connector) PeerNode.this.connUtil).getInfo();
-        }
-
-        for (final String ipAndPort : PeerNode.this.toIpsAndPorts) {
-          final String[] vals = ipAndPort.split(":");
+      public void actionPerformed(final ActionEvent e) { // now we are client and we want to send
+                                                         // some info, then go on.
+        for (final String ipAndPort : PeerNode.this.toIpsAndPorts) { // all of registered nodes will
+                                                                     // be effected.
+          final String[] vals = ipAndPort.split(ConnectionConstants.ADDRESS_SEPERATOR);
           final PeerInfo receiver = new PeerInfo(vals[0], Integer.valueOf(vals[1]), "");
           final DataPacket packet =
-              new DataPacket(myInfo, receiver, PeerNode.this.inputArea.getText());
+              new DataPacket(PeerNode.this.myInfo, receiver, PeerNode.this.inputArea.getText());
           PeerNode.this.connUtil.sendData(packet);
         }
 
+        PeerNode.this.outputArea // also change the our outputArea.
+            .append(PeerNode.this.myInfo.getNickname() + ConnectionConstants.MESSAGE_SEPARATOR
+                + PeerNode.this.inputArea.getText() + ConnectionConstants.EOL);
         PeerNode.this.inputArea.setText("");
       }
     });

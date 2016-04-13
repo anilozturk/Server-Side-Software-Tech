@@ -2,6 +2,14 @@ package server.side.soft.tech.peer2peer.architecture;
 
 import java.io.Serializable;
 
+/**
+ * This class holds peer information like ip, port, nickname.
+ * 
+ * @author anıl öztürk
+ * @author ahmet gül
+ * @author asım zorlu
+ *
+ */
 public class PeerInfo implements Serializable {
 
   private static final long serialVersionUID = -6095816718709183701L;
@@ -12,14 +20,11 @@ public class PeerInfo implements Serializable {
 
   private final String nickname;
 
-  public PeerInfo(final String ip, final int port, final String nickname) { // Kullanılan her bir
-                                                                            // akranın bilgileri
-                                                                            // için yapıcı method.
+  public PeerInfo(final String ip, final int port, final String nickname) {
     this.ip = ip;
     this.port = port;
     this.nickname = nickname;
-  } // Bağlanılan ip, port numarası ve nickname bu alanda saklanmaktadır.
-
+  }
 
   @Override
   public boolean equals(final Object obj) {
@@ -27,13 +32,12 @@ public class PeerInfo implements Serializable {
       return false;
     }
     final PeerInfo other = (PeerInfo) obj;
-    if (other.getIp().equals(this.getIp()) && other.getPort() == this.getPort()) {
+    if (other.getIp().equals(getIp()) && other.getPort() == getPort()) {
       return true;
     }
     return false;
   }
 
-  // getter ve setter metotları
   public String getIp() {
     return this.ip;
   }
@@ -56,6 +60,6 @@ public class PeerInfo implements Serializable {
 
   @Override
   public String toString() {
-    return this.getIp() + ":" + this.getPort() + " /" + this.getNickname();
+    return getIp() + ":" + getPort() + " /" + getNickname();
   }
 }

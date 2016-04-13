@@ -6,6 +6,14 @@ import javax.swing.UIManager;
 
 import server.side.soft.tech.peer2peer.test.PeerNode;
 
+/**
+ * Our initializer class.
+ * 
+ * @author anıl öztürk
+ * @author ahmet gül
+ * @author asım zorlu
+ *
+ */
 public class NodeInitializer {
 
   /**
