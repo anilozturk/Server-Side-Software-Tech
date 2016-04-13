@@ -20,13 +20,13 @@ public class Connector implements IConnection {
 
   private PeerInfo info;
 
-  public Connector(IDataListener listener) {
+  public Connector(final IDataListener listener) {
     this.listener = listener;
     this.service = Executors.newCachedThreadPool();
     this.connected = false;
   }
 
-  public Connector(PeerInfo info) {
+  public Connector(final PeerInfo info) {
     this.service = Executors.newCachedThreadPool();
     this.info = info;
     this.connected = false;
@@ -44,7 +44,6 @@ public class Connector implements IConnection {
     }
 
     this.connected = true;
-    ConnectionManager.getInstance().addNewActivePeer(this.info);
 
     final Runnable r = new Runnable() {
 
@@ -82,7 +81,7 @@ public class Connector implements IConnection {
   }
 
   @Override
-  public void sendData(DataPacket packet) {
+  public void sendData(final DataPacket packet) {
     if (!this.connected) {
       return;
     }
@@ -95,7 +94,7 @@ public class Connector implements IConnection {
     this.service.execute(new DataSender(this.clientSocket, packet));
   }
 
-  public void setInfo(PeerInfo info) {
+  public void setInfo(final PeerInfo info) {
     this.info = info;
   }
 }

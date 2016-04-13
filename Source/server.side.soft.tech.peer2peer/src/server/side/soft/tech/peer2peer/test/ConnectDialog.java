@@ -27,9 +27,11 @@ public class ConnectDialog extends JDialog {
   private JTextField ipField;
   private JTextField portField;
   private JTextField nickField;
+  private JTextField toField;
   private JLabel ipLabel;
   private JLabel portLabel;
   private JLabel nickLabel;
+  private JLabel toLabel;
   private final JButton okButton;
 
   private final PeerNode parent;
@@ -40,21 +42,21 @@ public class ConnectDialog extends JDialog {
    * @param peerNode
    * @param connUtil
    */
-  public ConnectDialog(PeerNode peerNode, IConnection connUtil) {
-    setModal(true);
-    setTitle("Connection Info");
-    setType(Type.POPUP);
-    setSize(450, 200);
-    getContentPane().setLayout(new BorderLayout());
+  public ConnectDialog(final PeerNode peerNode, final IConnection connUtil) {
+    this.setModal(true);
+    this.setTitle("Connection Info");
+    this.setType(Type.POPUP);
+    this.setSize(450, 200);
+    this.getContentPane().setLayout(new BorderLayout());
 
     this.parent = peerNode;
 
     final JPanel contentPanel = new JPanel();
     contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-    getContentPane().add(contentPanel, BorderLayout.CENTER);
+    this.getContentPane().add(contentPanel, BorderLayout.CENTER);
     final GridBagLayout gbl_contentPanel = new GridBagLayout();
     gbl_contentPanel.columnWeights = new double[] {0.0, 1.0};
-    gbl_contentPanel.rowWeights = new double[] {0.0, 0.0, 0.0};
+    gbl_contentPanel.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0};
     contentPanel.setLayout(gbl_contentPanel);
     {
       this.ipLabel = new JLabel("IP");
@@ -107,7 +109,7 @@ public class ConnectDialog extends JDialog {
       final GridBagConstraints gbc_nickLabel = new GridBagConstraints();
       gbc_nickLabel.fill = GridBagConstraints.BOTH;
       gbc_nickLabel.anchor = GridBagConstraints.EAST;
-      gbc_nickLabel.insets = new Insets(0, 0, 0, 5);
+      gbc_nickLabel.insets = new Insets(0, 0, 5, 5);
       gbc_nickLabel.gridx = 0;
       gbc_nickLabel.gridy = 2;
       contentPanel.add(this.nickLabel, gbc_nickLabel);
@@ -117,6 +119,7 @@ public class ConnectDialog extends JDialog {
       this.nickField.setFont(new Font("Times New Roman", Font.PLAIN, 13));
       this.nickLabel.setLabelFor(this.nickField);
       final GridBagConstraints gbc_nickField = new GridBagConstraints();
+      gbc_nickField.insets = new Insets(0, 0, 5, 0);
       gbc_nickField.fill = GridBagConstraints.BOTH;
       gbc_nickField.gridx = 1;
       gbc_nickField.gridy = 2;
@@ -125,9 +128,32 @@ public class ConnectDialog extends JDialog {
     }
     this.ipLabel.setLabelFor(this.ipField);
     {
+      this.toLabel = new JLabel("To");
+      this.toLabel.setToolTipText(
+          "Enter ports that you want to connect. Use this pattern.  ip1:port1,ip2:port2");
+      this.toLabel.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+      final GridBagConstraints gbc_toLabel = new GridBagConstraints();
+      gbc_toLabel.anchor = GridBagConstraints.EAST;
+      gbc_toLabel.fill = GridBagConstraints.BOTH;
+      gbc_toLabel.insets = new Insets(0, 0, 0, 5);
+      gbc_toLabel.gridx = 0;
+      gbc_toLabel.gridy = 3;
+      contentPanel.add(this.toLabel, gbc_toLabel);
+    }
+    {
+      this.toField = new JTextField();
+      this.toLabel.setLabelFor(this.toField);
+      final GridBagConstraints gbc_toField = new GridBagConstraints();
+      gbc_toField.fill = GridBagConstraints.BOTH;
+      gbc_toField.gridx = 1;
+      gbc_toField.gridy = 3;
+      contentPanel.add(this.toField, gbc_toField);
+      this.toField.setColumns(10);
+    }
+    {
       final JPanel buttonPane = new JPanel();
       buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-      getContentPane().add(buttonPane, BorderLayout.SOUTH);
+      this.getContentPane().add(buttonPane, BorderLayout.SOUTH);
       {
         this.okButton = new JButton("OK");
         this.okButton.setFont(new Font("Times New Roman", Font.PLAIN, 13));
@@ -136,12 +162,12 @@ public class ConnectDialog extends JDialog {
         this.okButton.addActionListener(new ActionListener() {
 
           @Override
-          public void actionPerformed(ActionEvent arg0) {
+          public void actionPerformed(final ActionEvent arg0) {
             if (ConnectDialog.this.ipField.getText().isEmpty()
                 || ConnectDialog.this.portField.getText().isEmpty()
                 || ConnectDialog.this.nickField.getText().isEmpty()) {
-              JOptionPane.showMessageDialog(getParent(), "Please fill all the fields!",
-                  "Blank Field Error", JOptionPane.ERROR_MESSAGE);
+              JOptionPane.showMessageDialog(ConnectDialog.this.getParent(),
+                  "Please fill all the fields!", "Blank Field Error", JOptionPane.ERROR_MESSAGE);
             } else {
               if (connUtil instanceof Connector) {
                 final PeerInfo info = new PeerInfo(ConnectDialog.this.ipField.getText(),
@@ -150,14 +176,18 @@ public class ConnectDialog extends JDialog {
                 ((Connector) connUtil).setInfo(info);
               }
               ConnectDialog.this.parent.connSuccess();
-              dispose();
+              ConnectDialog.this.dispose();
             }
           }
         });
 
         buttonPane.add(this.okButton);
-        getRootPane().setDefaultButton(this.okButton);
+        this.getRootPane().setDefaultButton(this.okButton);
       }
     }
+  }
+
+  public String getToIpAndPorts() {
+    return this.toField.getText();
   }
 }
