@@ -1,9 +1,13 @@
 package server.side.soft.tech.peer2peer.architecture;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+
+import server.side.soft.tech.peer2peer.util.Serialization;
 
 /**
  * This thread reading our communication data from server port.
@@ -21,14 +25,24 @@ public class DataReceiver implements Runnable {
 
   private ObjectInputStream ois;
 
-  public DataReceiver(IDataListener listener, Socket clientSocket) {
+  private BufferedReader br;
+
+  public DataReceiver(final IDataListener listener, final Socket clientSocket) {
     this.listener = listener;
 
     try {
       clientSocket.setSoTimeout(5000);
-      this.ois = new ObjectInputStream(clientSocket.getInputStream()); // we are creating this
-                                                                       // stream outside the loop
-                                                                       // for avoid the exception.
+      this.br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); // we
+                                                                                          // created
+                                                                                          // this
+                                                                                          // buffer
+                                                                                          // outside
+                                                                                          // the
+                                                                                          // loop
+                                                                                          // for
+                                                                                          // avoid
+                                                                                          // the
+                                                                                          // exception.
     } catch (final IOException e) {
       e.printStackTrace();
     }
@@ -37,9 +51,14 @@ public class DataReceiver implements Runnable {
   @Override
   public void run() {
     while (this.keepListening) { // continue until we dont care clients.
-      DataPacket packet;
+      DataPacket packet = null;
       try {
-        packet = (DataPacket) this.ois.readObject();
+        final String str = this.br.readLine();
+        if (str != null) {
+          packet = Serialization.getInstance().fromString(str); // convert decoded string to
+                                                                // DataPacket which has been sent
+                                                                // from client
+        }
       } catch (final SocketTimeoutException e) {
         continue;
       } catch (final IOException e) {

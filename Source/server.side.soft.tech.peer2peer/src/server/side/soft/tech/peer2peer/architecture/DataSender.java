@@ -1,8 +1,10 @@
 package server.side.soft.tech.peer2peer.architecture;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Formatter;
+
+import server.side.soft.tech.peer2peer.util.Serialization;
 
 /**
  * This thread writing our communication data to server port.
@@ -18,7 +20,7 @@ public class DataSender implements Runnable {
 
   private final DataPacket packet;
 
-  public DataSender(Socket clientSocket, DataPacket packet) {
+  public DataSender(final Socket clientSocket, final DataPacket packet) {
     this.clientSocket = clientSocket;
     this.packet = packet;
   }
@@ -26,12 +28,17 @@ public class DataSender implements Runnable {
   @Override
   public void run() {
     if (this.packet != null) {
-      ObjectOutputStream oos = null;
       try {
-        oos = new ObjectOutputStream(this.clientSocket.getOutputStream());
-        oos.writeObject(this.packet); // this is our DataPacket instance which has sender, receiver
-                                      // and content.
-        oos.flush(); // flush is required if we want to implement this program on a web.
+        final Formatter output = new Formatter(this.clientSocket.getOutputStream());
+        output.format("%s\n", Serialization.getInstance().toString(this.packet)); // we convert our
+                                                                                  // DataPacket to
+                                                                                  // String because
+                                                                                  // we have to give
+                                                                                  // end of stream
+                                                                                  // character to
+                                                                                  // output stream.
+        output.flush();
+        output.close();
       } catch (final IOException e) {
         e.printStackTrace();
       }

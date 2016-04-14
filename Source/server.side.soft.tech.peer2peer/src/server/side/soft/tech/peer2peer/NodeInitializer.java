@@ -1,10 +1,10 @@
-package server.side.soft.tech.peer2peer.architecture;
+package server.side.soft.tech.peer2peer;
 
 import java.awt.EventQueue;
 
 import javax.swing.UIManager;
 
-import server.side.soft.tech.peer2peer.test.PeerNode;
+import server.side.soft.tech.peer2peer.gui.PeerNode;
 
 /**
  * Our initializer class.

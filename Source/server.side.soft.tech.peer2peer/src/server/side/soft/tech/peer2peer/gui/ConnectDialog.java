@@ -1,4 +1,4 @@
-package server.side.soft.tech.peer2peer.test;
+package server.side.soft.tech.peer2peer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

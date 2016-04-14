@@ -1,4 +1,4 @@
-package server.side.soft.tech.peer2peer.test;
+package server.side.soft.tech.peer2peer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -20,12 +20,12 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import server.side.soft.tech.peer2peer.architecture.ConnectionConstants;
 import server.side.soft.tech.peer2peer.architecture.Connector;
 import server.side.soft.tech.peer2peer.architecture.DataPacket;
 import server.side.soft.tech.peer2peer.architecture.IConnection;
 import server.side.soft.tech.peer2peer.architecture.IDataListener;
 import server.side.soft.tech.peer2peer.architecture.PeerInfo;
+import server.side.soft.tech.peer2peer.util.ConnectionConstants;
 
 /**
  * The base class for Peer
@@ -87,8 +87,8 @@ public class PeerNode extends JFrame {
    * Create the frame.
    */
   public PeerNode() {
-    setTitle(ConnectionConstants.GUI_TITLE);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setTitle(ConnectionConstants.GUI_TITLE);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(500, 400);
 
     this.listener = new DataListener();
@@ -97,7 +97,7 @@ public class PeerNode extends JFrame {
     final JPanel contentPane = new JPanel();
     contentPane.setBorder(null);
     contentPane.setLayout(new BorderLayout(0, 0));
-    setContentPane(contentPane);
+    this.setContentPane(contentPane);
 
     final JMenuBar menuBar = new JMenuBar();
     menuBar.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -158,7 +158,7 @@ public class PeerNode extends JFrame {
     gbc_sendButton.gridy = 2;
     viewPanel.add(this.sendButton, gbc_sendButton);
 
-    installListeners(); // all required listeners has been installed.
+    this.installListeners(); // all required listeners has been installed.
   }
 
   public void connSuccess() { // if connect dialog has been returned with success then init this
@@ -172,7 +172,7 @@ public class PeerNode extends JFrame {
     this.inputArea.setEditable(true);
     if (PeerNode.this.connUtil instanceof Connector) {
       PeerNode.this.myInfo = ((Connector) PeerNode.this.connUtil).getInfo();
-      setTitle(getTitle() + "(" + this.myInfo.getNickname() + ")");
+      this.setTitle(this.getTitle() + "(" + this.myInfo.getNickname() + ")");
     }
     this.inputArea.requestFocus();
   }
@@ -202,14 +202,15 @@ public class PeerNode extends JFrame {
         PeerNode.this.disconnItem.setEnabled(false);
         PeerNode.this.sendButton.setEnabled(false);
         PeerNode.this.inputArea.setEditable(false);
-        setTitle(ConnectionConstants.GUI_TITLE);
+        PeerNode.this.outputArea.setText("");
+        PeerNode.this.setTitle(ConnectionConstants.GUI_TITLE);
       }
     });
   }
 
   private void installExitListener() { // if window is going to close then do some garbage collector
                                        // operation.
-    addWindowListener(new WindowAdapter() {
+    this.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(final WindowEvent e) {
         super.windowClosing(e);
@@ -219,10 +220,10 @@ public class PeerNode extends JFrame {
   }
 
   private void installListeners() {
-    installConnectListener();
-    installDisconnectListener();
-    installSendListener();
-    installExitListener();
+    this.installConnectListener();
+    this.installDisconnectListener();
+    this.installSendListener();
+    this.installExitListener();
   }
 
   private void installSendListener() {

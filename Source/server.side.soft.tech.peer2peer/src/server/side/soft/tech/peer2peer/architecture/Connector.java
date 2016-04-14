@@ -1,11 +1,14 @@
 package server.side.soft.tech.peer2peer.architecture;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import server.side.soft.tech.peer2peer.util.ConnectionConstants;
 
 /**
  * The backbone of architecture. This class has 3 main activities (connect, disconnect, sendData)
@@ -49,8 +52,8 @@ public class Connector implements IConnection {
 
     this.connected = true;
 
-    final ListenRequests requestListener =
-        new ListenRequests(this.serverSocket, this.listener, this.service);
+    final ConnRequestCollector requestListener =
+        new ConnRequestCollector(this.serverSocket, this.listener);
     this.service.execute(requestListener);
   }
 
@@ -58,6 +61,12 @@ public class Connector implements IConnection {
   public void disconnect() {
     if (!this.connected) {
       return;
+    }
+    this.connected = !this.connected;
+    try {
+      this.serverSocket.close();
+    } catch (final IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -74,6 +83,9 @@ public class Connector implements IConnection {
     try { // create clientSocket for to be client and use datapacket to understand where this data
           // want to go ?
       this.clientSocket = new Socket(InetAddress.getByName(receiver.getIp()), receiver.getPort());
+    } catch (final ConnectException e) {
+      System.err.println(ConnectionConstants.DISCONNECT_DATA);
+      return;
     } catch (final IOException e) {
       e.printStackTrace();
     }
