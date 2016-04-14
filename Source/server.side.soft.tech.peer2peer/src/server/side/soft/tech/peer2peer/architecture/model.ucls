@@ -133,144 +133,155 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="13">    
+  <class id="13" language="java" name="server.side.soft.tech.peer2peer.NodeInitializer" 
+    project="server.side.soft.tech.peer2peer" 
+    file="/server.side.soft.tech.peer2peer/src/server/side/soft/tech/peer2peer/NodeInitializer.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="394" y="97"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="14">    
     <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="14" name="connectDialog">        
+      <attribute id="15" name="connectDialog">        
         <position height="18" width="76" x="892" y="326"/>      
       </attribute>      
-      <multiplicity id="15" minimum="0" maximum="1"/>    
+      <multiplicity id="16" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="16">    
+  <association id="17">    
     <bendpoint x="968" y="711"/>    
     <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="17" name="listener">        
+      <attribute id="18" name="listener">        
         <position height="18" width="43" x="883" y="976"/>      
       </attribute>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
+      <multiplicity id="19" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="19">    
+  <association id="20">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="20" name="queue"/>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
+      <attribute id="21" name="queue"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="22">    
+  <association id="23">    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="23" name="receiver">        
+      <attribute id="24" name="receiver">        
         <position height="18" width="48" x="281" y="685"/>      
       </attribute>      
-      <multiplicity id="24" minimum="0" maximum="1"/>    
+      <multiplicity id="25" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="25">    
+  <association id="26">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="26" name="listener">        
+      <attribute id="27" name="listener">        
         <position height="18" width="43" x="931" y="992"/>      
       </attribute>      
-      <multiplicity id="27" minimum="0" maximum="1">        
+      <multiplicity id="28" minimum="0" maximum="1">        
         <position height="16" width="23" x="922" y="1009"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="28">    
+  <realization id="29">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
-  <association id="29">    
+  <association id="30">    
     <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="30" name="myInfo">        
+      <attribute id="31" name="myInfo">        
         <position height="18" width="40" x="347" y="772"/>      
       </attribute>      
-      <multiplicity id="31" minimum="0" maximum="1"/>    
+      <multiplicity id="32" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="32">    
+  <association id="33">    
     <bendpoint x="502" y="711"/>    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="33" name="listener">        
+      <attribute id="34" name="listener">        
         <position height="18" width="43" x="792" y="987"/>      
       </attribute>      
-      <multiplicity id="34" minimum="0" maximum="1"/>    
+      <multiplicity id="35" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="35">    
+  <association id="36">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="36" name="info">        
+      <attribute id="37" name="info">        
         <position height="18" width="26" x="343" y="695"/>      
       </attribute>      
-      <multiplicity id="37" minimum="0" maximum="1"/>    
+      <multiplicity id="38" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="38">    
+  <association id="39">    
     <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="39" name="connUtil">        
+      <attribute id="40" name="connUtil">        
         <position height="18" width="46" x="620" y="301"/>      
       </attribute>      
-      <multiplicity id="40" minimum="0" maximum="1">        
+      <multiplicity id="41" minimum="0" maximum="1">        
         <position height="16" width="23" x="678" y="292"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="41">    
+  <association id="42">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="42" name="listener"/>      
-      <multiplicity id="43" minimum="0" maximum="1"/>    
+      <attribute id="43" name="listener"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="44">    
+  <nesting id="45">    
     <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="10"/>  
   </nesting>  
-  <association id="45">    
+  <association id="46">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="46" name="parent">        
+      <attribute id="47" name="parent">        
         <position height="18" width="39" x="784" y="326"/>      
       </attribute>      
-      <multiplicity id="47" minimum="0" maximum="1"/>    
+      <multiplicity id="48" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="48">    
+  <realization id="49">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="1"/>  
   </realization>  
-  <association id="49">    
+  <association id="50">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="50" name="packet"/>      
-      <multiplicity id="51" minimum="0" maximum="1"/>    
+      <attribute id="51" name="packet"/>      
+      <multiplicity id="52" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="52">    
+  <association id="53">    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="53" name="sender">        
+      <attribute id="54" name="sender">        
         <position height="18" width="42" x="181" y="684"/>      
       </attribute>      
-      <multiplicity id="54" minimum="0" maximum="1">        
+      <multiplicity id="55" minimum="0" maximum="1">        
         <position height="16" width="23" x="206" y="706"/>      
       </multiplicity>    
     </end>    
