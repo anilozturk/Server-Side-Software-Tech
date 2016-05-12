@@ -1,4 +1,7 @@
 # Server-Side-Software-Tech
 
+ We implemeted an example of Peer to Peer communication software.
+ 
+ We have used Java technologies for our project.
 
- First Project !
+ This is also the first of project of Server-Side-Software-Technologies course.
