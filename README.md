@@ -1,6 +1,6 @@
 # Server-Side-Software-Tech
 
- We implemeted an example of Peer to Peer communication software.
+ We implemeted an example of Peer to Peer communication architecture.
  
  We have used Java technologies for our project.
 
